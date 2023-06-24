@@ -18,6 +18,9 @@ public class RegistrationUserTest extends BaseMethods { // класс Registrati
         Response response = getUser().registrationUser(getUserRegistration());
         // проверяет, что в теле ответа ключам success, email, name соответствует успеху (success), email и имени пользователя, а Матчер notNullValue() проверяет, что аргумент метода assertThat — не null-значение
         response.then().assertThat()
+                // проверяем, что статус-код ответа равен 200
+                .statusCode(200)
+                .and()
                 .body("success", equalTo(true))
                 .and()
                 .body("user.email", equalTo(super.getEmail()))
@@ -26,10 +29,7 @@ public class RegistrationUserTest extends BaseMethods { // класс Registrati
                 .and()
                 .body("accessToken", notNullValue())
                 .and()
-                .body("refreshToken", notNullValue())
-                .and()
-                // проверяем, что статус-код ответа равен 200
-                .statusCode(200);
+                .body("refreshToken", notNullValue());
     }
 
     @Test
@@ -38,11 +38,12 @@ public class RegistrationUserTest extends BaseMethods { // класс Registrati
     public void registrationUserAlreadyExist() {
         getUser().registrationUser(getUserRegistration());
         Response response = getUser().registrationUser(getUserRegistration());
-        response.then().assertThat().body("success", equalTo(false))
+        response.then().assertThat()
+                .statusCode(403)
                 .and()
-                .body("message", equalTo("User already exists"))
+                .body("success", equalTo(false))
                 .and()
-                .statusCode(403);
+                .body("message", equalTo("User already exists"));
     }
 
 }

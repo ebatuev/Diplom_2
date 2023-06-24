@@ -16,13 +16,13 @@ public class ChangeUserDataTest extends BaseMethods { // класс ChangeUserDa
         String accessToken = responseCreate.jsonPath().get("accessToken");
         Response responseChange = getUser().changeUserData(getUserChangeData(), accessToken);
         responseChange.then().assertThat()
+                .statusCode(200)
+                .and()
                 .body("success", equalTo(true))
                 .and()
                 .body("user.email", equalTo(super.getChangeEmail()))
                 .and()
-                .body("user.name", equalTo(super.getChangeName()))
-                .and()
-                .statusCode(200);
+                .body("user.name", equalTo(super.getChangeName()));
     }
 
     @Test
@@ -31,11 +31,11 @@ public class ChangeUserDataTest extends BaseMethods { // класс ChangeUserDa
     public void changeUserDataWithoutAuthorization() {
         Response responseChange = getUser().changeUserData(getUserChangeData(), "");
         responseChange.then().assertThat()
+                .statusCode(401)
+                .and()
                 .body("success", equalTo(false))
                 .and()
-                .body("message", equalTo("You should be authorised"))
-                .and()
-                .statusCode(401);
+                .body("message", equalTo("You should be authorised"));
     }
 
 }

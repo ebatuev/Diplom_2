@@ -4,9 +4,9 @@ import constants.PathAPI;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-import model_POJO.UserChangeData;
-import model_POJO.UserLogin;
-import model_POJO.UserRegistration;
+import model.UserChangeData;
+import model.UserLogin;
+import model.UserRegistration;
 
 import static io.restassured.RestAssured.given;
 

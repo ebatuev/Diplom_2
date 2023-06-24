@@ -4,7 +4,7 @@ import io.restassured.response.Response;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import model_POJO.UserRegistration;
+import model.UserRegistration;
 import step.BaseMethods;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -23,7 +23,8 @@ public class RegistrationUserAndDoNotFillInOneOfRequiredFields extends BaseMetho
         this.name = name;
     }
 
-    @Parameterized.Parameters // добавили аннотацию
+    // В параметризованных тестах для аннотации @Parameterized.Parameters лучше использовать аргумент name: @Parameterized.Parameters(name = "Стоимость булочки. Тестовые данные: {0} {1}"), где {0}, {1} - индексы параметров. С аргументом name наименование теста отобразится в отчете. А использование индексов параметров повысит информативность проверки.
+    @Parameterized.Parameters(name = "Не заполнено одно из обязательных полей. Тестовые данные: {demuha.evg@yandex.ru, 123456, Evgeniy}") // добавили аннотацию
     public static Object[][] registerUserData() {
         return new Object[][]{
                 {"", "123456", "Evgeniy"},
@@ -36,14 +37,14 @@ public class RegistrationUserAndDoNotFillInOneOfRequiredFields extends BaseMetho
     @DisplayName("Создать пользователя и не заполнить одно из обязательных полей. Параметризованный тест")
     @Description("Ожидаемый результат: код 403, пользователь не создан")
     public void RegistrationUserWithoutRequiredField() {
-        UserRegistration registerUserPOJO = new UserRegistration(email, password, name);
-        Response response = getUser().registrationUser(registerUserPOJO);
+        UserRegistration registrationUser = new UserRegistration(email, password, name);
+        Response response = getUser().registrationUser(registrationUser);
         response.then().assertThat()
+                .statusCode(403)
+                .and()
                 .body("success", equalTo(false))
                 .and()
-                .body("message", equalTo("Email, password and name are required fields"))
-                .and()
-                .statusCode(403);
+                .body("message", equalTo("Email, password and name are required fields"));
     }
 
 }

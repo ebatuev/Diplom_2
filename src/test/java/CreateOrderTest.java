@@ -2,7 +2,7 @@ import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.Test;
-import model_POJO.OrderCreate;
+import model.OrderCreate;
 import step.BaseMethods;
 
 import java.util.ArrayList;
@@ -38,11 +38,11 @@ public class CreateOrderTest extends BaseMethods { // класс UserOrdersTest 
     public void createOrderWithoutAuthorization() {
         Response response = getOrder().createOrder(getOrderCreate(), "");
         response.then().assertThat()
+                .statusCode(200) // должен приходить ответ 401
+                .and()
                 .body("name", notNullValue())
                 .and()
-                .body("success", equalTo(true))
-                .and()
-                .statusCode(200); // должен приходить ответ 401
+                .body("success", equalTo(true));
     }
 
     @Test
@@ -51,11 +51,11 @@ public class CreateOrderTest extends BaseMethods { // класс UserOrdersTest 
     public void createOrderWithoutIngredients() {
         Response response = getOrder().createOrder(new OrderCreate(new ArrayList<>()), "");
         response.then().assertThat()
+                .statusCode(400)
+                .and()
                 .body("message", equalTo("Ingredient ids must be provided"))
                 .and()
-                .body("success", equalTo(false))
-                .and()
-                .statusCode(400);
+                .body("success", equalTo(false));
     }
 
     @Test

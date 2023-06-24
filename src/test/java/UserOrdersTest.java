@@ -16,10 +16,10 @@ public class UserOrdersTest extends BaseMethods { // класс UserOrdersTest -
         String accessToken = getUser().registrationUser(getUserRegistration()).jsonPath().get("accessToken");
         Response response = getOrder().getUserOrders(accessToken);
         response.then().assertThat()
-                .body("success", equalTo(true))
-                .body("orders", notNullValue())
+                .statusCode(200)
                 .and()
-                .statusCode(200);
+                .body("success", equalTo(true))
+                .body("orders", notNullValue());
     }
 
     @Test
@@ -28,11 +28,11 @@ public class UserOrdersTest extends BaseMethods { // класс UserOrdersTest -
     public void getUserOrdersForNotAuthorizedUser() {
         Response response = getOrder().getUserOrders("");
         response.then().assertThat()
+                .statusCode(401)
+                .and()
                 .body("success", equalTo(false))
                 .and()
-                .body("message", equalTo("You should be authorised"))
-                .and()
-                .statusCode(401);
+                .body("message", equalTo("You should be authorised"));
     }
 
 }

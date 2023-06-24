@@ -1,4 +1,4 @@
-package model_POJO;
+package model;
 
 
 // Cоздать класс UserRegistration. Его полями будут ключи из JSON — email, password и name.

@@ -1,20 +1,21 @@
-package model_POJO;
+package model;
 
 
-// Cоздать класс UserLogin. Его полями будут ключи из JSON — email и password.
-public class UserLogin {
-    private  String email; // ключ email стал полем типа String
-    private  String password; // ключ password стал полем типа String
+// Cоздать класс UserChangeData. Его полями будут ключи из JSON — email и name.
+public class UserChangeData {
+
+    private String email; // ключ email стал полем типа String
+    private String name; // ключ name стал полем типа String
 
 
     // Конструктор со всеми параметрами
-    public UserLogin(String email, String password) {
+    public UserChangeData(String email, String name) {
         this.email = email;
-        this.password = password;
+        this.name = name;
     }
 
     // Конструктор без параметров
-    public UserLogin() {
+    public UserChangeData() {
     }
 
 
@@ -28,12 +29,12 @@ public class UserLogin {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getName() {
+        return name;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

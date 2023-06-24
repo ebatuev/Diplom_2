@@ -4,7 +4,7 @@ import constants.PathAPI;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-import model_POJO.OrderCreate;
+import model.OrderCreate;
 
 import static io.restassured.RestAssured.given;
 

@@ -4,7 +4,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
-import model_POJO.*;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +38,7 @@ public class BaseMethods {
     public void setUp() {
 
         RestAssured.baseURI = BASE_URI;
+        UserRegistration userRegistration = new UserRegistration(email, password, name);
     }
 
     // аннотация After показывает, что метод будет выполняться после каждого тестового метода

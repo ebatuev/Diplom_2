@@ -2,7 +2,7 @@ import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.Test;
-import model_POJO.UserLogin;
+import model.UserLogin;
 import step.BaseMethods;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -18,6 +18,8 @@ public class LoginUserTest extends BaseMethods { // класс LoginUserTest - �
         getUser().registrationUser(getUserRegistration());
         Response response = getUser().loginUser(getUserLogin());
         response.then().assertThat()
+                .statusCode(200)
+                .and()
                 .body("success", equalTo(true))
                 .and()
                 .body("user.email", equalTo(super.getEmail()))
@@ -26,9 +28,7 @@ public class LoginUserTest extends BaseMethods { // класс LoginUserTest - �
                 .and()
                 .body("accessToken", notNullValue())
                 .and()
-                .body("refreshToken", notNullValue())
-                .and()
-                .statusCode(200);
+                .body("refreshToken", notNullValue());
     }
 
     @Test
@@ -36,14 +36,14 @@ public class LoginUserTest extends BaseMethods { // класс LoginUserTest - �
     @Description("Ожидаемый результат: код 401, пользователь не залогинелся")
     public void loginWithWrongEmail() {
         getUser().registrationUser(getUserRegistration());
-        UserLogin loginUserPOJO = new UserLogin("", super.getPassword());
-        Response response = getUser().loginUser(loginUserPOJO);
+        UserLogin loginUser = new UserLogin("", super.getPassword());
+        Response response = getUser().loginUser(loginUser);
         response.then().assertThat()
+                .statusCode(401)
+                .and()
                 .body("success", equalTo(false))
                 .and()
-                .body("message", equalTo("email or password are incorrect"))
-                .and()
-                .statusCode(401);
+                .body("message", equalTo("email or password are incorrect"));
     }
 
     @Test
@@ -51,14 +51,14 @@ public class LoginUserTest extends BaseMethods { // класс LoginUserTest - �
     @Description("Ожидаемый результат: код 401, пользователь не залогинелся")
     public void loginWithWrongPassword() {
         getUser().registrationUser(getUserRegistration());
-        UserLogin loginUserPOJO = new UserLogin(super.getEmail(), "");
-        Response response = getUser().loginUser(loginUserPOJO);
+        UserLogin loginUser = new UserLogin(super.getEmail(), "");
+        Response response = getUser().loginUser(loginUser);
         response.then().assertThat()
+                .statusCode(401)
+                .and()
                 .body("success", equalTo(false))
                 .and()
-                .body("message", equalTo("email or password are incorrect"))
-                .and()
-                .statusCode(401);
+                .body("message", equalTo("email or password are incorrect"));
     }
 
 }
